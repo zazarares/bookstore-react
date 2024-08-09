@@ -1,11 +1,11 @@
 import './App.css';
 import MainNavbar from "./Component/navbar";
-import Router from "./Router";
+import BookStoreRouter from "./BookStoreRouter";
 function App() {
   return (
     <div className="App">
         <MainNavbar/>
-        <Router/>
+        <BookStoreRouter/>
     </div>
   );
 }

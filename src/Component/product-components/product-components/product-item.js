@@ -1,19 +1,15 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import bookStore from "../../../storage/book-stores/book-storage";
 
-class ProductItem extends React.Component {
+const ProductItem = ({ book }) => {
+    const bookStorage = bookStore();
+    const setBook = (book) => {
+        bookStorage.setBook(book);
+    };
 
-    setBook(book){
-        localStorage.setItem("currentBook", JSON.stringify(book));
-    }
-
-    render() {
-        const {book} = this.props;
-
-        console.log(book);
-
-        return (
-            <Link to={`/${book._id}`} onClick={()=>this.setBook(book)} className="text-decoration-none">
+    return (
+        <Link to={`/product/${book._id}`} onClick={() => setBook(book)} className="text-decoration-none">
             <div className="card mb-3 h-100">
                 <div className="row g-0 h-100">
                     <div className="col-md-4">
@@ -30,9 +26,8 @@ class ProductItem extends React.Component {
                     </div>
                 </div>
             </div>
-            </Link>
-        );
-    }
-}
+        </Link>
+    );
+};
 
 export default ProductItem;

@@ -8,7 +8,7 @@ class Navbar extends React.Component {
             <div className="navigation-bar">
             <div className="left-navbar">
                 <Link className="left-button" to={"/"}>Home</Link>
-                <Link className="left-button" to={"/produse"}>Produse</Link>
+                <Link className="left-button" to={"/products"}>Produse</Link>
             </div>
             <Link className="center-button" to={"/"}></Link>
             <div className="right-navbar">
