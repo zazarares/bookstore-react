@@ -13,7 +13,7 @@ class Navbar extends React.Component {
             <Link className="center-button" to={"/"}></Link>
             <div className="right-navbar">
                 <Link className="right-button" to={"/login"}>Login</Link>
-                <a className="right-button" href="#produse">Cart</a>
+                <Link className="right-button" to={"/cart"}>Cart</Link>
             </div>
             </div>
         );

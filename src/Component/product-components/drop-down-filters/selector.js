@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import BookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 import bookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
-import BookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
 
 const SelectorComponent = (options,type,initialValue) => {
     const [selectedOption, setSelectedOption] = useState(initialValue); // Default selected value

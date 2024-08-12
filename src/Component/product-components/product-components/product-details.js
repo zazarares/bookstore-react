@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import '../../../Styles/product-details.css'
 import {fetchBookById} from "../../../api-calls";
+import CartStorage from "../../../storage/order-stores/cart-storage";
 const ProductDetails = () => {
     const [book, setBook] = useState({});
+    const cartStore=CartStorage();
     useEffect(()=>{
         const id=window.location.href.split("/")[4];
         const loadBooks=async()=> {
@@ -15,6 +17,9 @@ const ProductDetails = () => {
     const handleBack = () => {
         window.history.back();
     };
+    const addToCart=()=>{
+        cartStore.addBook({book:book,quantity:1})
+    }
 
     return (
         <div className="container">
@@ -39,7 +44,7 @@ const ProductDetails = () => {
                             <p className="card-text"><strong>Genre:</strong>{book.genre}</p>
                             <p className="card-text"><strong>Year:</strong>{book.year}</p>
                             <p className="card-text"><strong>Price:</strong>{book.price} RON</p>
-                            <button className="btn">Add to cart</button>
+                            <button className="btn" onClick={addToCart}>Add to cart</button>
                         </div>
                     </div>
                 </div>

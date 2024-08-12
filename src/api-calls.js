@@ -1,6 +1,4 @@
 import axios from "axios";
-import BookSelectedFilterStorage from "./storage/book-stores/book-selected-filter-storage";
-import bookPaginationStorage from "./storage/book-stores/book-pagination-storage";
 
 export const fetchFilters = async () => {
     try {
@@ -48,3 +46,32 @@ export const fetchBookById = async (id) => {
     } finally {
     }
 };
+export const sendOrder = async(userID,bookList) =>
+{
+    try{
+        let books=[];
+        bookList.map((book)=>books.push({book:book,quantity:1}))
+        const response = await axios.post(`http://127.0.0.1:3001/orders`,{userId:userID,books:bookList});
+
+        if (response.status!==200) {
+            throw new Error('Network response was not ok');
+        }
+    }
+    catch(error){
+
+    }
+}
+export const VerifyCredentials = async(username,password) =>
+{
+    try{
+        const response = await axios.get(`http://127.0.0.1:3001/users/check/${username}/${password}`);
+
+        if (response.status!==200) {
+            throw new Error('Network response was not ok');
+        }
+        return response.data;
+    }
+    catch(error){
+
+    }
+}
