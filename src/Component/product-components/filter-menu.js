@@ -40,8 +40,7 @@ const FilterMenu = () => {
             <DropDownSliderFilter field={"price"} min={0} max={100}/>
             <DropDownCheckbox field={"author"} data={authors} />
             <DropDownCheckbox field={"genre"} data={genres} />
-            <Selector options={[6,12]} type={"elementsPerPage"} initialValue={6}></Selector>
-            <Selector options={["asc","desc"]} type={"sortOrder"} initialValue={"asc"}></Selector>
+            <Selector></Selector>
             <button onClick={resetFilters}>Reset Filters</button>
         </div>
         <div>FilterNumber: {selectedFiltersStore.filterCount}</div>

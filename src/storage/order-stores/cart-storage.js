@@ -21,6 +21,8 @@ const cartStore = create(
                 } else {
                     set(() => ({ bookList: [...state.bookList, { book: item.book, quantity: item.quantity }] }));
                 }
+                state.setPrice(state.price+item.book.price);
+                console.log(state);
             },
             setQuantity: (id,quantity) => {
                 const state = get();
@@ -31,7 +33,12 @@ const cartStore = create(
                     ) }));
 
             },
-            clear: ()=> set(() => ({ bookList: [],price: 0 }))
+            clear: ()=> set(() => ({ bookList: [],price: 0 })),
+            setPrice: (price)=> set(() => ({price: price })),
+            empty: ()=> {
+                const state = get();
+                return state.bookList.length === 0;
+            }
         }),
 );
 

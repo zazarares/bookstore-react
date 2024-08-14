@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import bookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
@@ -10,8 +10,12 @@ const SliderFilter = ({ field, min, max }) => {
         updateRange: state.updateRange
     }));
     const pageStore=BookPaginationStorage();
+    const selectedfilterStore=bookSelectedFilterStorage()
     const [value, setValue] = React.useState([min, max]);
-
+    useEffect(() => {
+        if(selectedfilterStore.reset)
+            setValue([min,max]);
+    }, [selectedfilterStore.reset]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };

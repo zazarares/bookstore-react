@@ -1,3 +1,4 @@
+/* Navigation bar container */
 .navigation-bar {
     background-color: #333;
     display: flex;
@@ -8,32 +9,26 @@
     width: 100%;
 }
 
-.navigation-bar a.left-button {
-    color: #f2f2f2;
-    text-align: center;
-    padding: 20px 100px;
-    text-decoration: none;
-    min-width: 400px;
-    font-size: 17px;
-}
-
+/* Styles for left and right buttons (links) */
+.navigation-bar a.left-button,
 .navigation-bar a.right-button {
     color: #f2f2f2;
     text-align: center;
     padding: 20px 100px;
     text-decoration: none;
     min-width: 400px;
-
     font-size: 17px;
 }
 
+/* Center button style */
 .navigation-bar a.center-button {
     color: #f2f2f2;
     padding: 40px 100px;
     text-decoration: none;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);    min-width: 400px;
+    transform: translateX(-50%);
+    min-width: 400px;
     background-image: url("../images/logo-image.jpg");
     background-repeat: no-repeat;
     background-size: 50%;
@@ -41,12 +36,55 @@
     background-position: center;
 }
 
-.navigation-bar a:hover {
+/* Hover effect for all buttons (links) */
+.navigation-bar a:hover,
+.navigation-bar button:hover {
     background-color: yellow;
     color: black;
 }
 
-.navbar-button a.active {
+/* Active state for buttons (links) */
+.navigation-bar a.active {
     background-color: #04AA6D;
     color: white;
+}
+
+/* Styles to make buttons look like links */
+.navigation-bar button.right-button {
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    color: #f2f2f2; /* Match text color with links */
+    text-align: center; /* Center text alignment */
+    padding: 20px 100px; /* Match padding of links */
+    text-decoration: none; /* Remove underline */
+    min-width: 400px; /* Match min-width of links */
+    font-size: 17px; /* Match font size of links */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Hover effect specific to buttons */
+.navigation-bar button.right-button:hover {
+    background-color: yellow;
+    color: black;
+}
+
+/* Ensure right-navbar uses flexbox to align items horizontally */
+.navigation-bar .right-navbar {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+}
+
+/* Adjust button spacing */
+.navigation-bar .right-navbar .right-button {
+    margin-left: 10px; /* Space between buttons, adjust as needed */
+}
+/* Ensure left-navbar uses flexbox to align items horizontally */
+.navigation-bar .left-navbar {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+}
+
+/* Adjust button spacing for left buttons */
+.navigation-bar .left-navbar .left-button {
+    margin-right: 10px; /* Space between buttons, adjust as needed */
 }

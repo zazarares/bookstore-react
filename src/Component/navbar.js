@@ -1,22 +1,51 @@
 import React from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import "../Styles/navbar.css";
-import {Link} from "react-router-dom";
-class Navbar extends React.Component {
-    render()
-    {
-        return (
-            <div className="navigation-bar">
+import UserStorage from "../storage/user-stores/user-storage";
+
+const Navbar = () => {
+    const userStore = UserStorage();
+    const navigate = useNavigate();
+
+    function handleCartClick() {
+            navigate("/cart");
+    }
+    const goToLogin=()=>{
+        navigate("/login")
+    }
+    const goToUserPage=()=>{
+        navigate("/user")
+    }
+    const checkLogin = () => {
+        if (userStore.username === "")
+            return (<button className="right-button" onClick={goToLogin}>
+                Login
+            </button>)
+        else
+            return (<button className="right-button" onClick={goToUserPage}>
+                {userStore.name}
+            </button>)
+    }
+
+    return (
+        <div className="navigation-bar">
             <div className="left-navbar">
-                <Link className="left-button" to={"/"}>Home</Link>
+                <Link className="left-button" to={"/user"}>
+                    HOME
+                </Link>
                 <Link className="left-button" to={"/products"}>Produse</Link>
             </div>
             <Link className="center-button" to={"/"}></Link>
             <div className="right-navbar">
-                <Link className="right-button" to={"/login"}>Login</Link>
-                <Link className="right-button" to={"/cart"}>Cart</Link>
+                <div>
+                    {checkLogin()}
+                </div>
+                <button className="right-button" onClick={handleCartClick}>
+                    Cart
+                </button>
             </div>
-            </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
 export default Navbar;

@@ -21,7 +21,7 @@ const DropDownCheckBox = ({ field, data }) => {
                 updatedcheckList = [...checkList, item._id];
             filterStore.increaseFilterCount();
         } else {
-            updatedcheckList = checkList.filter(i => i !== item);
+            updatedcheckList = checkList.filter(i => i !== item._id);
             filterStore.decreaseFilterCount();
         }
         setCheckList(updatedcheckList);

@@ -14,9 +14,11 @@ const ProductDetails = () => {
         }
         loadBooks();
     },[])
+
     const handleBack = () => {
         window.history.back();
     };
+
     const addToCart=()=>{
         cartStore.addBook({book:book,quantity:1})
     }
@@ -34,18 +36,16 @@ const ProductDetails = () => {
 
             <div className="book-details">
                 <div className="card">
-                    <div className="card-content">
-                        <div className="book-cover">
-                            <img src={book.url} alt="Book Cover" className="img-fluid rounded-start"/>
-                        </div>
-                        <div className="book-info">
-                            <h1 className="card-title">{book.name}</h1>
-                            <p className="card-text"><strong>Author:</strong>{book.author}</p>
-                            <p className="card-text"><strong>Genre:</strong>{book.genre}</p>
-                            <p className="card-text"><strong>Year:</strong>{book.year}</p>
-                            <p className="card-text"><strong>Price:</strong>{book.price} RON</p>
-                            <button className="btn" onClick={addToCart}>Add to cart</button>
-                        </div>
+                    <div className="book-cover">
+                        <img src={book.url} alt="Book Cover" className="img-fluid rounded-start"/>
+                    </div>
+                    <div className="book-info">
+                        <h1 className="card-title">{book.name}</h1>
+                        <p className="card-text"><strong>Author:</strong> {book.author}</p>
+                        <p className="card-text"><strong>Genre:</strong> {book.genre}</p>
+                        <p className="card-text"><strong>Year:</strong> {book.year}</p>
+                        <p className="card-text"><strong>Price:</strong> {book.price} RON</p>
+                        <button className="btn" onClick={addToCart}>Add to cart</button>
                     </div>
                 </div>
             </div>

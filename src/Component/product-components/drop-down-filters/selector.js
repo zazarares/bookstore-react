@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
 import BookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
-import bookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
 
-const SelectorComponent = (options,type,initialValue) => {
-    const [selectedOption, setSelectedOption] = useState(initialValue); // Default selected value
+const SelectorComponent = () => {
+    const [selectedOption, setSelectedOption] = useState(6); // Default selected value
     const BookPaginationStore=BookPaginationStorage();
-    const bookSelectedFilterStore = bookSelectedFilterStorage();
-
     const handleChange = (event) => {
-        setSelectedOption(event.target.value); // Update the state with the selected value
-        console.log(type);
-        switch(type.type)
-        {
-            case "elementsPerPage":
-                BookPaginationStore.setLimit(Number(event.target.value))
-                break;
-            default:
-                bookSelectedFilterStore.update(type.type, selectedOption);
-
-        }
-
+        setSelectedOption(Number(event.target.value)); // Update the state with the selected value
+        BookPaginationStore.setLimit(Number(event.target.value))
     };
 
     return (
@@ -30,11 +17,9 @@ const SelectorComponent = (options,type,initialValue) => {
                 value={selectedOption}
                 onChange={handleChange}
             >
-                {options.options.map(option => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
+                <option value={6}>6</option>
+                <option value={12}>12</option>
+                <option value={24}>24</option>
             </select>
         </div>
     );

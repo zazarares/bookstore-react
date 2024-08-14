@@ -1,15 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import bookStore from "../../../storage/book-stores/book-storage";
 
 const ProductItem = ({ book }) => {
-    const bookStorage = bookStore();
-    const setBook = (book) => {
-        bookStorage.setBook(book);
-    };
 
     return (
-        <Link to={`/product/${book._id}`} onClick={() => setBook(book)} className="text-decoration-none">
+        <Link to={`/product/${book._id}`} className="text-decoration-none">
             <div className="card mb-3 h-100">
                 <div className="row g-0 h-100">
                     <div className="col-md-4">
@@ -22,6 +17,7 @@ const ProductItem = ({ book }) => {
                             <p className="card-text">Author: {book.author}</p>
                             <p className="card-text text-muted">Published: {book.year}</p>
                             <p className="card-text">Price: {book.price}</p>
+                            <p className="card-text">Quantity: {book.quantity}</p>
                         </div>
                     </div>
                 </div>

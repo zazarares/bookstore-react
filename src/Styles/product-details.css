@@ -1,83 +1,96 @@
+/* Container for the book details */
 .container {
-    max-width: 1200px;
-    margin: 50px auto;
     padding: 20px;
+    max-width: 1200px;
+    margin: auto;
 }
 
+/* Wrapper to align back button and book details */
+.wrapper {
+    display: flex;
+    flex-direction: column; /* Stack back button and book details vertically */
+}
+
+/* Style for the back button */
 .back-button {
+    display: flex;
+    justify-content: flex-start; /* Align back button to the left */
     margin-bottom: 20px;
 }
 
-.img-thumbnail {
-    max-width: 100%;
+.back-button img {
+    width: 50px; /* Adjust size as needed */
     height: auto;
     cursor: pointer;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
+    transition: opacity 0.3s ease;
 }
 
+.back-button img:hover {
+    opacity: 0.7;
+}
+
+/* Style for the book details section */
 .book-details {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
+/* Card container style */
 .card {
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    background-color: #fff;
-    width: 100%;
-    max-width: 900px;
-}
-
-.card-content {
     display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px;
 }
 
+/* Book cover image style */
 .book-cover {
     flex: 1;
-    min-width: 300px;
 }
 
-.img-fluid {
-    max-width: 100%;
+.book-cover img {
+    width: 100%;
     height: auto;
+    object-fit: cover; /* Ensure the image covers the area */
 }
 
-.rounded-start {
-    border-radius: 0.25rem 0 0 0.25rem;
-}
-
+/* Book info section style */
 .book-info {
     flex: 2;
     padding: 20px;
 }
 
 .card-title {
-    font-size: 24px;
-    margin: 0;
+    font-size: 2rem;
+    margin-bottom: 10px;
 }
 
 .card-text {
-    font-size: 18px;
-    margin: 10px 0;
+    font-size: 1rem;
+    margin: 5px 0;
 }
 
+.card-text strong {
+    font-weight: bold;
+}
+
+/* Button style */
 .btn {
-    display: inline-block;
-    padding: 10px 20px;
+    background-color: #04AA6D; /* Main color */
+    color: white;
     border: none;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #28a745;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #218838;
+    background-color: #039855; /* Darker shade on hover */
 }

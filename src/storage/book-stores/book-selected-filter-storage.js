@@ -9,13 +9,17 @@ const bookSelectedFilterStorage = create((set) => ({
     genre:"",
     sortBy:"",
     sortOrder:"",
+    reset:0,
     increaseFilterCount: () => set((state) => ({ filterCount: state.filterCount + 1 })),
     decreaseFilterCount: () => set((state) => ({ filterCount: state.filterCount - 1 })),
     removeAllFilters: () => set({ filterCount: 0 ,name: "",
         author: "",
         price: "0-10000",
         year: "0-10000",
-        genre:"" }),
+        genre:"",
+        reset:1
+    }),
+    unSetReset: ()=> set({ reset: 0 }),
     update: (field,value) => {set({ [field]: value })},
     getCheckedFields: (field) => {
         const state = bookSelectedFilterStorage.getState(); // Get the current state
