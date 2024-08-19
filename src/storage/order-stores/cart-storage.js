@@ -5,12 +5,13 @@ const cartStore = create(
             bookList: [],
             userId: "66a8f42e351fc50bb1431cb7",
             price: 0,
-            setBookList: (bookList) => set(() => ({ bookList })),
+
             addBook: (item) => {
                 const state = get();
                 const existingBook = state.bookList.find((bookItem) => bookItem.book._id === item.book._id);
-
+                //Check if the book already exists
                 if (existingBook) {
+                    //The book exists, quantity increased
                     set(() => ({
                         bookList: state.bookList.map((bookItem) =>
                             bookItem.book._id === item.book._id
@@ -19,22 +20,25 @@ const cartStore = create(
                         ),
                     }));
                 } else {
+                    //The book doesn't exist and is added
                     set(() => ({ bookList: [...state.bookList, { book: item.book, quantity: item.quantity }] }));
                 }
                 state.setPrice(state.price+item.book.price);
-                console.log(state);
             },
+
             setQuantity: (id,quantity) => {
                 const state = get();
                 set(() => ({ bookList: state.bookList.map((item) =>
                         {
-                            console.log(item.book);
                             return item.book._id === id ? { ...item, quantity: quantity } : item}
                     ) }));
 
             },
+
             clear: ()=> set(() => ({ bookList: [],price: 0 })),
+
             setPrice: (price)=> set(() => ({price: price })),
+
             empty: ()=> {
                 const state = get();
                 return state.bookList.length === 0;

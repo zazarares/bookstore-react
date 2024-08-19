@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const paginationStore = create((set) => ({
+const paginationStorage = create((set) => ({
     page:1,
     limit:6,
     pageMax:1000,
@@ -11,4 +11,4 @@ const paginationStore = create((set) => ({
     setMaxPage:(max)=>set(() => ({ pageMax: max })),
 }))
 
-export default paginationStore
+export default paginationStorage

@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import ProductItem from '../product-components/product-components/product-item';
 import CartStorage from "../../storage/order-stores/cart-storage";
+
 const CartList = () => {
+
     const [books, setBooks] = useState([]);
     const [quantities, setQuantities] = useState({});
-    const CartStore=CartStorage();
+    const CartStore = CartStorage();
 
     useEffect(() => {
-            setBooks(CartStore.bookList.map((book) => book.book));
-            setQuantities(CartStore.bookList.map((book) => book.quantity));
+        setBooks(CartStore.bookList.map((book) => book.book));
+        setQuantities(CartStore.bookList.map((book) => book.quantity));
     }, []);
 
-    const handleQuantityChange = (bookId, quantity,index) => {
+    const handleQuantityChange = (bookId, quantity, index) => {
         setQuantities(prevQuantities => {
             const updatedArray = [...prevQuantities];
             updatedArray[index] = quantity;
             return updatedArray;
         });
 
-        const bookList=CartStore.bookList;
+        const bookList = CartStore.bookList;
 
-        for(let i=0;i<bookList.length;i++)
-        {
-            if(bookList[i].book._id === bookId){
-                CartStore.setPrice(CartStore.price+bookList[i].book.price*(quantity-bookList[i].quantity));
-
-                CartStore.setQuantity(bookId,quantity);
-
+        for (let i = 0; i < bookList.length; i++) {
+            if (bookList[i].book._id === bookId) {
+                CartStore.setPrice(CartStore.price + bookList[i].book.price * (quantity - bookList[i].quantity));
+                CartStore.setQuantity(bookId, quantity);
             }
         }
 
     };
+
     return (
         <div className="container mt-5">
             <div className="row">

@@ -4,9 +4,11 @@ import BookPaginationStorage from "../../../storage/book-stores/book-pagination-
 const SelectorComponent = () => {
     const [selectedOption, setSelectedOption] = useState(6); // Default selected value
     const BookPaginationStore=BookPaginationStorage();
+
     const handleChange = (event) => {
         setSelectedOption(Number(event.target.value)); // Update the state with the selected value
         BookPaginationStore.setLimit(Number(event.target.value))
+        //BookPaginationStore.setPage(1);
     };
 
     return (

@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes,Switch } from "react-router-dom";
+import  {Route, Routes } from "react-router-dom";
 import Login from "./Component/login-page";
 import React from "react";
 import Home from "./Home";
@@ -9,6 +9,7 @@ import CartPage from "./Component/cart-page";
 import UserPage from "./Component/user-page";
 import PrivateRoute from "./Component/ProtectedRoute";
 import ForbiddenPage from "./Component/forbidden-page";
+import CompletedOrder from "./Component/order-components/completed-order";
 
 class BookStoreRouter extends React.Component {
     render() {
@@ -22,6 +23,7 @@ class BookStoreRouter extends React.Component {
                     <Route path="/cart" element={<CartPage/>}/>
                     <Route path="/user" element={<PrivateRoute><UserPage/></PrivateRoute>}/>
                     <Route path="/product/:productId" element={<ProductDetails/>}/>
+                    <Route path="/order/:orderID" element={<CompletedOrder/>}/>
             </Routes>
         );
     }

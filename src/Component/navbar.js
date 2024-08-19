@@ -7,13 +7,13 @@ const Navbar = () => {
     const userStore = UserStorage();
     const navigate = useNavigate();
 
-    function handleCartClick() {
-            navigate("/cart");
+    const handleCartClick = () => {
+        navigate("/cart");
     }
-    const goToLogin=()=>{
+    const goToLogin = () => {
         navigate("/login")
     }
-    const goToUserPage=()=>{
+    const goToUserPage = () => {
         navigate("/user")
     }
     const checkLogin = () => {

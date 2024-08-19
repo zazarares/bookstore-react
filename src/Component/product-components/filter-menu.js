@@ -3,29 +3,33 @@ import DropDownFilterText from "./drop-down-filters/drop-down-filter-text";
 import DropDownSliderFilter from "./drop-down-filters/drop-down-slider-filter";
 import DropDownCheckbox from "./drop-down-filters/drop-down-checkbox";
 import bookSelectedFilterStorage from "../../storage/book-stores/book-selected-filter-storage";
-import DynamicBookFilterStorage from "../../storage/book-stores/book-dynamic-filter-storage";
+import BookFilterStorage from "../../storage/book-stores/book-filter-storage";
 import {fetchFilters} from "../../api-calls"
 import Selector from "./drop-down-filters/selector";
 import BookPaginationStorage from "../../storage/book-stores/book-pagination-storage";
 const FilterMenu = () => {
-    const DynamicBookFilterStore = DynamicBookFilterStorage();
+
+    const bookFilterStore = BookFilterStorage();
     const selectedFiltersStore= bookSelectedFilterStorage();
     const pageStore=BookPaginationStorage();
-    const authors = DynamicBookFilterStore.authors;
-    const genres = DynamicBookFilterStore.genres;
+    const authors = bookFilterStore.authors;
+    const genres = bookFilterStore.genres;
+
     const getFilterData = async () => {
 
         try {
             const data = await fetchFilters();
-            DynamicBookFilterStore.updateAuthors(data.authors);
-            DynamicBookFilterStore.updateGenres(data.genres);
+            bookFilterStore.updateAuthors(data.authors);
+            bookFilterStore.updateGenres(data.genres);
 
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
 
-    useEffect(()=>{getFilterData()}, []);
+    useEffect(()=>{
+        getFilterData()
+    }, []);
 
     const resetFilters=()=>{
         selectedFiltersStore.removeAllFilters();

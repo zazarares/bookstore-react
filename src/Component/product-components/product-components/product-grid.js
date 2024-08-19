@@ -6,30 +6,31 @@ import BookSelectedFilterStorage from "../../../storage/book-stores/book-selecte
 
 function ProductComponent(displayType) {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const pageStore = bookPaginationStorage();
     const BookSelectedFilterStore = BookSelectedFilterStorage();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const filter=BookSelectedFilterStore.getFilter();
-                const page=pageStore.page;
-                const limit=pageStore.limit;
-                console.log(filter)
+                const filter=BookSelectedFilterStore.filter;
                 let filters={}
+
                 for(const key in filter)
                     if(filter[key]!=="")
                         filters[key]=filter[key];
-                console.log(filters);
-                filters["page"]=page;
-                filters["limit"] =limit;
-                const result = await fetchBooks(filters); // Assuming fetchBooks returns the entire response
+
+                filters["page"]=pageStore.page;
+                filters["limit"] =pageStore.limit;
+
+                const result = await fetchBooks(filters);
+
                 const books=result.book;
                 const numberOfBooks=result.bookNumber;
+
                 pageStore.setMaxPage(Math.ceil(numberOfBooks/pageStore.limit));
-                setData(books); // Set the data state with the fetched data
+
+                setData(books);
+
             } catch (error) {
                 console.error('Error fetching books:', error);
                 setData([]); // Set data to an empty array if there's an error
@@ -37,17 +38,10 @@ function ProductComponent(displayType) {
         };
 
         fetchData(); // Call the fetch function immediately to load data on page load
-    }, [
-        BookSelectedFilterStore.name,
-        BookSelectedFilterStore.author,
-        BookSelectedFilterStore.genre,
-        BookSelectedFilterStore.price,
-        BookSelectedFilterStore.year,
-        pageStore.limit,
-        pageStore.page,
-        BookSelectedFilterStore.sortBy,
-        BookSelectedFilterStore.sortOrder,
-    ]);
+    }, [BookSelectedFilterStore.filter,pageStore.page,pageStore.limit]);
+
+
+
     return (
         <div className="container-fluid mt-5">
             <div className="row">

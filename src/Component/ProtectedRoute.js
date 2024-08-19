@@ -4,6 +4,7 @@ import userStorage from "../storage/user-stores/user-storage";
 const PrivateRoute = ({children}) => {
     const userStore = userStorage();
     const location = useLocation();
+
     if(userStore.username==="" && userStore.jwt==="")
         return <Navigate to="/forbidden" state={{ from: location }} />;
     else

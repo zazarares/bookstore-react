@@ -2,25 +2,34 @@ import React, {useEffect, useState} from 'react';
 import '../../../Styles/product-details.css'
 import {fetchBookById} from "../../../api-calls";
 import CartStorage from "../../../storage/order-stores/cart-storage";
+import useBookStorage from "../../../storage/book-stores/book-storage";
+import { useParams } from 'react-router-dom';
+
 const ProductDetails = () => {
     const [book, setBook] = useState({});
-    const cartStore=CartStorage();
-    useEffect(()=>{
-        const id=window.location.href.split("/")[4];
-        const loadBooks=async()=> {
-            const result = await fetchBookById(id)
-            setBook(result.book[0])
-            console.log(book.name)
+    const cartStore = CartStorage();
+    const bookStore = useBookStorage();
+    const { productId } = useParams();
+
+    useEffect(() => {
+        if (bookStore.exists && bookStore.book._id === productId)
+            setBook(bookStore.book);
+        else {
+            const loadBooks = async () => {
+                const result = await fetchBookById(productId)
+                setBook(result.book[0])
+                bookStore.setBook(result.book[0]);
+            }
+            loadBooks();
         }
-        loadBooks();
-    },[])
+    }, [])
 
     const handleBack = () => {
         window.history.back();
     };
 
-    const addToCart=()=>{
-        cartStore.addBook({book:book,quantity:1})
+    const addToCart = () => {
+        cartStore.addBook({book: book, quantity: 1})
     }
 
     return (

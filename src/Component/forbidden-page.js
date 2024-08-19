@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Styles/forbidden-page.css';
+import '../Styles/forbidden.css';
 
 const ForbiddenPage = () => {
     return (

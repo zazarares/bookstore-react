@@ -1,44 +1,55 @@
-import { create } from 'zustand'
+import {create} from 'zustand';
 
-const bookSelectedFilterStorage = create((set) => ({
-    filterCount: 0,
+const initialFilterState = {
     name: "",
-    author: "",
+    author: [],
     price: "0-10000",
     year: "0-10000",
-    genre:"",
-    sortBy:"",
-    sortOrder:"",
-    reset:0,
-    increaseFilterCount: () => set((state) => ({ filterCount: state.filterCount + 1 })),
-    decreaseFilterCount: () => set((state) => ({ filterCount: state.filterCount - 1 })),
-    removeAllFilters: () => set({ filterCount: 0 ,name: "",
-        author: "",
-        price: "0-10000",
-        year: "0-10000",
-        genre:"",
-        reset:1
+    genre: [],
+    sortBy: "",
+    sortOrder: ""
+};
+
+const bookSelectedFilterStorage = create((set) => ({
+    filter: { ...initialFilterState },
+    filterCount: 0,
+    reset: 0,
+
+    updateFilterCount: (filter) => {
+        const genreCount = filter.genre.length;
+        const authorCount = filter.author.length;
+        return genreCount + authorCount;
+    },
+
+    removeAllFilters: () => set({
+        filter: { ...initialFilterState },
+        filterCount: 0,
+        reset: 1
     }),
-    unSetReset: ()=> set({ reset: 0 }),
-    update: (field,value) => {set({ [field]: value })},
+
+    unSetReset: () => set({ reset: 0 }),
+
+    update: (field, value) => set((state) => {
+        const newFilter = { ...state.filter, [field]: value };
+        return {
+            filter: newFilter,
+            filterCount: bookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+        };
+    }),
+
+    updateRange: (field, min, max) => set((state) => {
+        const newFilter = { ...state.filter, [field]: `${min}-${max}` };
+        return {
+            filter: newFilter,
+            filterCount: bookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+        };
+    }),
+
     getCheckedFields: (field) => {
         const state = bookSelectedFilterStorage.getState(); // Get the current state
-        if(field==="genre") return state.genre
-    else return state.author
+        return state.filter[field];
     },
-    updateRange: (field,min,max) => set({ [field]: `${min}-${max}` }),
-    getFilter:()=>
-    {
-        const state = bookSelectedFilterStorage.getState(); // Get the current state
-        return{
-            name:state.name,
-            author:state.author,
-            year:state.year,
-            price:state.price,
-            genre:state.genre
-        }
-    }
 
-}))
+}));
 
-export default bookSelectedFilterStorage
+export default bookSelectedFilterStorage;

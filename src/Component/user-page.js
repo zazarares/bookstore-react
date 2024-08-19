@@ -5,27 +5,30 @@ import UserStorage from "../storage/user-stores/user-storage";
 import "../Styles/user.css"
 import {useNavigate} from "react-router-dom";
 const UserPage = () => {
+
     const [orders, setOrders] = useState([]);
     const userStore=UserStorage();
     const navigate=useNavigate();
+
     useEffect(() => {
-        console.log(userStore)
         const func = async () => {
             try {
-                const order = await getOrdersByUserID(userStore.id,userStore.jwt);
-                console.log(order);
-                setOrders(order);
+                const userOrders = await getOrdersByUserID(userStore.id,userStore.jwt,userStore.logOut);
+                setOrders(userOrders);
             } catch (error) {
                 console.error("Failed to fetch orders", error);
             }
         }
         func();
-        console.log(userStore.id);
     }, [])
+
+
     const handleLogout=()=>{
         userStore.logOut();
         navigate("/")
     }
+
+
     return (
         <div className="container mt-5">
             <div className="col-12 mb-4">

@@ -8,24 +8,24 @@ const DropDownCheckBox = ({ field, data }) => {
     const filterStore = bookSelectedFilterStorage();
     const pageStore=BookPaginationStorage();
     const [checkList, setCheckList] = useState([]);
+
     useEffect(()=>{
         setCheckList(filterStore.getCheckedFields(field))},
         [filterStore.filterCount])
+
     const handleCheckBoxChange = (event, item) => {
-        let updatedcheckList;
+        let updatedCheckList;
 
         if (event.target.checked) {
             if(checkList===[])
                 setCheckList(item)
             else
-                updatedcheckList = [...checkList, item._id];
-            filterStore.increaseFilterCount();
+                updatedCheckList = [...checkList, item._id];
         } else {
-            updatedcheckList = checkList.filter(i => i !== item._id);
-            filterStore.decreaseFilterCount();
+            updatedCheckList = checkList.filter(i => i !== item._id);
         }
-        setCheckList(updatedcheckList);
-        filterStore.update(field, updatedcheckList);
+        setCheckList(updatedCheckList);
+        filterStore.update(field, updatedCheckList);
         pageStore.setPage(1);
     };
 
