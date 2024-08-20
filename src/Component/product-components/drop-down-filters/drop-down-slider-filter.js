@@ -14,16 +14,15 @@ const SliderFilter = ({ field, min, max }) => {
     const [value, setValue] = React.useState([min, max]);
 
     useEffect(() => {
-        if(selectedFilterStore.reset)
-            setValue([min,max]);
-    }, [selectedFilterStore.reset]);
+        setValue([selectedFilterStore.getCheckedFields("min"+field),selectedFilterStore.getCheckedFields("max"+field)]);
+    }, [selectedFilterStore.filter]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     
     const handleChangeCommited = () => {
-        bookSelectedFilterStorage.updateRange(field,value[0],value[1]);
+        selectedFilterStore.updateRange(field,value[0],value[1]);
         pageStore.setPage(1);
 
     };

@@ -11,15 +11,15 @@ const UserPage = () => {
     const navigate=useNavigate();
 
     useEffect(() => {
-        const func = async () => {
+        const GetOrdersByUserID = async () => {
             try {
-                const userOrders = await getOrdersByUserID(userStore.id,userStore.jwt,userStore.logOut);
+                const userOrders = await getOrdersByUserID(userStore.user._id,userStore.logOut);
                 setOrders(userOrders);
             } catch (error) {
                 console.error("Failed to fetch orders", error);
             }
         }
-        func();
+        GetOrdersByUserID();
     }, [])
 
 
@@ -34,10 +34,10 @@ const UserPage = () => {
             <div className="col-12 mb-4">
                 <div className="card">
                     <div className="card-body">
-                        <h5 className="card-title">{userStore.name}</h5>
-                        <p className="card-text">Email: {userStore.email}</p>
-                        <p className="card-text">Username: {userStore.username}</p>
-                        <p className="card-text">UserID: {userStore.id}</p>
+                        <h5 className="card-title">{userStore.user.name}</h5>
+                        <p className="card-text">Email: {userStore.user.email}</p>
+                        <p className="card-text">Username: {userStore.user.username}</p>
+                        <p className="card-text">UserID: {userStore.user._id}</p>
                     </div>
                 </div>
             </div>

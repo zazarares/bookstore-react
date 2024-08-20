@@ -1,33 +1,20 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
+const initialUserState={
+    _id: "",
+    username: "",
+    name: "",
+    email: "",
+    isAdmin: false,
+}
 const userStore = create(
     persist(
         (set, get) => ({
-            id: "",
-            username: "",
-            name: "",
-            email: "",
-            isAdmin: false,
-            jwt: "",
+            user:initialUserState,
+            logged:false,
+            setUser: (user) => set(() => ({ user: user, logged: true })),
 
-            setUser: (user) => set(() => ({
-                id: user._id,
-                username: user.username,
-                name: user.name,
-                email: user.email,
-                isAdmin: user.isAdmin,
-            })),
-
-            setJWTToken: (jwt) => set(() => ({ jwt: jwt })),
-
-            logOut: () => set(() => ({
-                id: "",
-                username: "",
-                name: "",
-                email: "",
-                isAdmin: false,
-                jwt: ""
-            }))
+            logOut: () => set(() => ({user:initialUserState,logged:false})),
         }),
         {
             name: 'user-storage',

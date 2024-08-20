@@ -12,17 +12,8 @@ const ProductDetails = () => {
     const { productId } = useParams();
 
     useEffect(() => {
-        if (bookStore.exists && bookStore.book._id === productId)
-            setBook(bookStore.book);
-        else {
-            const loadBooks = async () => {
-                const result = await fetchBookById(productId)
-                setBook(result.book[0])
-                bookStore.setBook(result.book[0]);
-            }
-            loadBooks();
-        }
-    }, [])
+        setBook(bookStore.getBook(productId));
+    }, [bookStore, productId])
 
     const handleBack = () => {
         window.history.back();

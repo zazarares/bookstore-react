@@ -48,7 +48,7 @@ function ProductComponent(displayType) {
                 {data && data.length > 0 ? (
                     data.map((book, index) => (
                         <div className="col-md-4 mb-4" key={index}>
-                            <ProductItem book={book}/>
+                            <ProductItem book={book} inCart={false}/>
                         </div>
                     ))
                 ) : (

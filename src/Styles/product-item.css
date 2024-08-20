@@ -1,0 +1,25 @@
+/* ProductItem.css */
+
+.product-card {
+    width: 38rem;  /* Set card width */
+    height: 25rem; /* Set card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.product-card img {
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area */
+    border-radius: 5px 0 0 5px; /* Optional: If you want rounded corners */
+}
+
+.product-card .card-body {
+    flex-grow: 1; /* Ensures the body takes up remaining space */
+    overflow: hidden; /* Hides overflow text */
+}
+
+.product-card .card-footer {
+    text-align: center; /* Centers the button */
+}

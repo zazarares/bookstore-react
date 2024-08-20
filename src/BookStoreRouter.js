@@ -9,7 +9,7 @@ import CartPage from "./Component/cart-page";
 import UserPage from "./Component/user-page";
 import PrivateRoute from "./Component/ProtectedRoute";
 import ForbiddenPage from "./Component/forbidden-page";
-import CompletedOrder from "./Component/order-components/completed-order";
+import OrderDetails from "./Component/order-components/order-details";
 
 class BookStoreRouter extends React.Component {
     render() {
@@ -23,7 +23,7 @@ class BookStoreRouter extends React.Component {
                     <Route path="/cart" element={<CartPage/>}/>
                     <Route path="/user" element={<PrivateRoute><UserPage/></PrivateRoute>}/>
                     <Route path="/product/:productId" element={<ProductDetails/>}/>
-                    <Route path="/order/:orderID" element={<CompletedOrder/>}/>
+                    <Route path="/order/:orderID" element={<OrderDetails/>}/>
             </Routes>
         );
     }

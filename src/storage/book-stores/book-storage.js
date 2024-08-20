@@ -1,5 +1,6 @@
-import { create } from 'zustand';
+import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
+import {fetchBookById} from "../../api-calls";
 
 const initialBookState = {
     _id: "",
@@ -11,25 +12,41 @@ const initialBookState = {
     url: ""
 };
 
-const bookStorage = create(
+const BookStorage = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             book: initialBookState,
             exists: false,
             update: (field, value) => set((state) => ({
-                book: { ...state.book, [field]: value }
+                book: {...state.book, [field]: value}
             })),
             updateRange: (field, min, max) => set((state) => ({
-                book: { ...state.book, [field]: `${min}-${max}` }
+                book: {...state.book, [field]: `${min}-${max}`}
             })),
             setBook: (book) => set((state) => ({
-                book: { ...state.book, ...book },
+                book: {...state.book, ...book},
                 exists: true
             })),
             resetBook: () => set(() => ({
-                book: { ...initialBookState },
+                book: {...initialBookState},
                 exists: false
-            }))
+            })),
+            getBook: (productId) => {
+                const state = BookStorage.getState();
+                if (state.book._id === productId)
+                    return state.book;
+                else {
+                    const loadBook = async () => {
+                        const result = await fetchBookById(productId)
+                        return await result.book[0]
+                    }
+                    return loadBook().then(book => {
+                        set(()=>({book:book}))
+                        console.log(state.book)
+                        return state.book
+                    })
+                }
+            }
         }),
         {
             name: 'book-storage',
@@ -38,4 +55,4 @@ const bookStorage = create(
     )
 );
 
-export default bookStorage;
+export default BookStorage;

@@ -40,8 +40,8 @@ const FilterMenu = () => {
         <div>
         <div className="filter-menu-sidebar">
             <DropDownFilterText field={"name"} />
-            <DropDownSliderFilter field={"year"} min={1900} max={2024} />
-            <DropDownSliderFilter field={"price"} min={0} max={100}/>
+            <DropDownSliderFilter field={"Year"} min={1900} max={2024} />
+            <DropDownSliderFilter field={"Price"} min={0} max={100}/>
             <DropDownCheckbox field={"author"} data={authors} />
             <DropDownCheckbox field={"genre"} data={genres} />
             <Selector></Selector>

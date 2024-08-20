@@ -1,38 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CartList from "./order-components/cart-list";
 import CartStorage from "../storage/order-stores/cart-storage";
-import {sendOrder, updateQuantities} from "../api-calls";
+import {sendOrder} from "../api-calls";
 import {useNavigate} from "react-router-dom";
 import "../Styles/cart-page.css"
 import UserStorage from "../storage/user-stores/user-storage";
 import EmptyCart from "./order-components/empty-cart";
-import CompletedOrderStorage from "../storage/order-stores/completed-order-storage";
 
 const CartPage = () => {
+    const [order, setOrder] = useState({})
     const cartStore = CartStorage();
     const userStore = UserStorage();
-    const orderStore = CompletedOrderStorage();
     const navigate = useNavigate();
+    useEffect(() => {
+        if(order._id)
+            navigate(`/order/${order._id}`);
+    }, [order]);
 
     const executeOrder = async () => {
         try {
-            const orderResponse = await sendOrder(userStore.id, cartStore.bookList, userStore.jwt, userStore.logOut);
-            orderStore.setOrder(orderResponse.order);
-            await updateQuantities(cartStore.bookList, userStore.jwt, userStore.logOut);
-
+            const orderResponse = await sendOrder(userStore.user._id, cartStore.bookList, userStore.logOut);
+            setOrder(orderResponse.order);
         } catch (error) {
             console.error('Error executing order:', error);
         }
     }
 
     const finishOrder = () => {
-        if (userStore.jwt !== "" && userStore.username !== "") {
+        if (userStore.logged) {
             executeOrder();
             cartStore.clear();
-            navigate("/order/a")
-
-        }
-        else {
+        } else {
             navigate("/login")
         }
     }
@@ -41,7 +39,7 @@ const CartPage = () => {
         return (
             <div>
                 <CartList></CartList>
-                <p1>Total Price:{cartStore.price}</p1>
+                <p>Total Price:{cartStore.price}</p>
                 <button onClick={finishOrder}>Finish Order</button>
             </div>
         );

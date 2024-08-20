@@ -5,7 +5,7 @@ const PrivateRoute = ({children}) => {
     const userStore = userStorage();
     const location = useLocation();
 
-    if(userStore.username==="" && userStore.jwt==="")
+    if(!userStore.logged)
         return <Navigate to="/forbidden" state={{ from: location }} />;
     else
         return children;

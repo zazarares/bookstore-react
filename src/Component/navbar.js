@@ -17,14 +17,15 @@ const Navbar = () => {
         navigate("/user")
     }
     const checkLogin = () => {
-        if (userStore.username === "")
+        if (userStore.logged)
+            return (<button className="right-button" onClick={goToUserPage}>
+                {userStore.user.name}
+            </button>)
+        else
             return (<button className="right-button" onClick={goToLogin}>
                 Login
             </button>)
-        else
-            return (<button className="right-button" onClick={goToUserPage}>
-                {userStore.name}
-            </button>)
+
     }
 
     return (

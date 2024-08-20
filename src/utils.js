@@ -9,8 +9,7 @@ export const loginUser = async (response,userStore) => {
             window.location.reload();
         } else {
             userStore.setUser(r.user);
-            userStore.setJWTToken(r.token);
-
+            localStorage.setItem("token", r.token);
         }
     } catch (error) {
         console.error("An error occurred:", error);

@@ -1,5 +1,7 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import {create} from 'zustand';
+import {persist, createJSONStorage} from 'zustand/middleware';
+import {getOrderByID} from "../../api-calls";
+import {get} from "axios";
 
 const CompletedOrderStorage = create(
     persist(
@@ -11,7 +13,7 @@ const CompletedOrderStorage = create(
                 totalPrice: 0,
                 date: null,
             },
-            setOrder: (order) => set({ order:order }),
+            setOrder: (order) => set({order: order}),
             clearOrder: () => set({
                 order: {
                     _id: "",
@@ -21,6 +23,21 @@ const CompletedOrderStorage = create(
                     date: null,
                 },
             }),
+            getOrder: (orderID) => {
+                const state = CompletedOrderStorage.getState();
+                if (state.order._id === orderID) {
+                    return state.order
+                } else {
+                    const fetchOrders = async () => {
+                        const response = await getOrderByID(orderID)
+                        return response[0];
+                    }
+                    return fetchOrders().then((order) => {
+                        set(()=>({order:order}))
+                        return state.order
+                    });
+                }
+            },
         }),
         {
             name: 'order-storage',
