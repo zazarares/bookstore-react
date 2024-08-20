@@ -1,14 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import CartStorage from "../../../storage/order-stores/cart-storage";
+import useCartStorage from "../../../storage/order-stores/cart-storage";
 import "../../../Styles/product-item.css"
 
 const ProductItem = ({book,inCart}) => {
-    const cartStore = CartStorage();
+    const cartStore = useCartStorage();
     return (
         <div>
             <Link to={`/product/${book._id}`} className="text-decoration-none">
-                <div className="card product-card">
+                <div className="card product-card light-card">
                     <div className="row g-0 h-100">
                         <div className="col-md-4">
                             <img

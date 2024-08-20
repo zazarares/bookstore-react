@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import BookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
+import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
 const SelectorComponent = () => {
     const [selectedOption, setSelectedOption] = useState(6); // Default selected value
-    const BookPaginationStore=BookPaginationStorage();
+    const bookPaginationStore=useBookPaginationStorage();
 
     const handleChange = (event) => {
         setSelectedOption(Number(event.target.value)); // Update the state with the selected value
-        BookPaginationStore.setLimit(Number(event.target.value))
-        //BookPaginationStore.setPage(1);
+        bookPaginationStore.setLimit(Number(event.target.value))
     };
 
     return (

@@ -2,23 +2,30 @@ import React, {useEffect} from 'react';
 import DropDownFilterText from "./drop-down-filters/drop-down-filter-text";
 import DropDownSliderFilter from "./drop-down-filters/drop-down-slider-filter";
 import DropDownCheckbox from "./drop-down-filters/drop-down-checkbox";
-import bookSelectedFilterStorage from "../../storage/book-stores/book-selected-filter-storage";
-import BookFilterStorage from "../../storage/book-stores/book-filter-storage";
+import useBookSelectedFilterStorage from "../../storage/book-stores/book-selected-filter-storage";
+import useBookFilterStorage from "../../storage/book-stores/book-filter-storage";
 import {fetchFilters} from "../../api-calls"
 import Selector from "./drop-down-filters/selector";
-import BookPaginationStorage from "../../storage/book-stores/book-pagination-storage";
+import useBookPaginationStorage from "../../storage/book-stores/book-pagination-storage";
 const FilterMenu = () => {
 
-    const bookFilterStore = BookFilterStorage();
-    const selectedFiltersStore= bookSelectedFilterStorage();
-    const pageStore=BookPaginationStorage();
+    const bookFilterStore = useBookFilterStorage();
+    const bookSelectedFilterStorage= useBookSelectedFilterStorage();
+    const bookPaginationStore=useBookPaginationStorage();
     const authors = bookFilterStore.authors;
     const genres = bookFilterStore.genres;
 
     const getFilterData = async () => {
 
         try {
-            const data = await fetchFilters();
+            const filter=bookSelectedFilterStorage.filter;
+            let filters={}
+
+            for(const key in filter)
+                if(filter[key]!=="")
+                    filters[key]=filter[key];
+
+            const data = await fetchFilters(filters);
             bookFilterStore.updateAuthors(data.authors);
             bookFilterStore.updateGenres(data.genres);
 
@@ -29,15 +36,18 @@ const FilterMenu = () => {
 
     useEffect(()=>{
         getFilterData()
-    }, []);
+    }, [bookSelectedFilterStorage]);
+    useEffect(()=>{
+        bookPaginationStore.setPage(Math.min(bookPaginationStore.page,bookPaginationStore.pageMax));
+    }, [bookPaginationStore.pageMax]);
 
     const resetFilters=()=>{
-        selectedFiltersStore.removeAllFilters();
-        pageStore.setPage(1);
+        bookSelectedFilterStorage.removeAllFilters();
+        bookPaginationStore.setPage(1);
     }
 
     return (
-        <div>
+        <div className="filter-menu">
         <div className="filter-menu-sidebar">
             <DropDownFilterText field={"name"} />
             <DropDownSliderFilter field={"Year"} min={1900} max={2024} />
@@ -45,9 +55,9 @@ const FilterMenu = () => {
             <DropDownCheckbox field={"author"} data={authors} />
             <DropDownCheckbox field={"genre"} data={genres} />
             <Selector></Selector>
-            <button onClick={resetFilters}>Reset Filters</button>
+            <button className={"reset-filter-button"} onClick={resetFilters}>Reset Filters</button>
         </div>
-        <div>FilterNumber: {selectedFiltersStore.filterCount}</div>
+        <div>FilterNumber: {bookSelectedFilterStorage.filterCount}</div>
         </div>
     );
 };

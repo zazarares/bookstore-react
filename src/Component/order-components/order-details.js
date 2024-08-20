@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import CompletedOrderStorage from "../../storage/order-stores/completed-order-storage";
-import {getOrderByID} from "../../api-calls";
+import useCompletedOrderStorage from "../../storage/order-stores/completed-order-storage";
 import {Link, useParams} from "react-router-dom";
 import "../../Styles/order-details.css"
 
 const OrderDetails = () => {
     const [books, setBooks] = useState([])
     const [order, setOrder] = useState({});
-    const orderStore = CompletedOrderStorage();
+    const orderStore = useCompletedOrderStorage();
     const {orderID} = useParams();
 
     useEffect(() => {
@@ -29,8 +28,8 @@ const OrderDetails = () => {
             <div className="books-list">
                 {books ? (
                     books.map((book) => (
-                        <div key={book.id} className="book-item">
-                            <Link to={`/product/${book.id}`} className="text-decoration-none">
+                        <div key={book.book} className="book-item">
+                            <Link to={`/product/${book.book}`} className="text-decoration-none">
                                 <p><strong>Name:</strong> {book.name}</p>
                                 <p><strong>Price:</strong> {book.price} RON</p>
                                 <p><strong>Quantity:</strong> {book.quantity}</p>

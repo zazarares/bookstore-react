@@ -1,7 +1,6 @@
 import {create} from 'zustand';
 import {persist, createJSONStorage} from 'zustand/middleware';
 import {getOrderByID} from "../../api-calls";
-import {get} from "axios";
 
 const CompletedOrderStorage = create(
     persist(

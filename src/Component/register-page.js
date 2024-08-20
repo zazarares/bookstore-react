@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../Styles/Register.css';
 import {register} from "../api-calls"
-import UserStorage from "../storage/user-stores/user-storage";
+import useUserStorage from "../storage/user-stores/user-storage";
 import {loginUser, validateEmail} from "../utils";
 
 function RegisterPage() {
@@ -12,7 +12,7 @@ function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState()
     const [fullName, setFullName] = useState()
     const navigate = useNavigate();
-    const userStore=UserStorage();
+    const userStore=useUserStorage();
 
     const Register = async (e) => {
 

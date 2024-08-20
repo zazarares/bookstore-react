@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import "../Styles/navbar.css";
-import UserStorage from "../storage/user-stores/user-storage";
+import useUserStorage from "../storage/user-stores/user-storage";
 
 const Navbar = () => {
-    const userStore = UserStorage();
+    const userStore = useUserStorage();
     const navigate = useNavigate();
 
     const handleCartClick = () => {

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import '../../../Styles/product-details.css'
-import {fetchBookById} from "../../../api-calls";
-import CartStorage from "../../../storage/order-stores/cart-storage";
+import useCartStorage from "../../../storage/order-stores/cart-storage";
 import useBookStorage from "../../../storage/book-stores/book-storage";
 import { useParams } from 'react-router-dom';
 
 const ProductDetails = () => {
     const [book, setBook] = useState({});
-    const cartStore = CartStorage();
+    const cartStore = useCartStorage();
     const bookStore = useBookStorage();
     const { productId } = useParams();
 

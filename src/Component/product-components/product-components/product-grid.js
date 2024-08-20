@@ -1,33 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import ProductItem from "./product-item";
-import bookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
+import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 import {fetchBooks} from "../../../api-calls";
-import BookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
-
-function ProductComponent(displayType) {
+import useBookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
+function ProductGrid(displayType) {
     const [data, setData] = useState([]);
-    const pageStore = bookPaginationStorage();
-    const BookSelectedFilterStore = BookSelectedFilterStorage();
+    const bookPaginationStorage = useBookPaginationStorage();
+    const bookSelectedFilterStore = useBookSelectedFilterStorage();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const filter=BookSelectedFilterStore.filter;
+                const filter=bookSelectedFilterStore.filter;
                 let filters={}
 
                 for(const key in filter)
                     if(filter[key]!=="")
                         filters[key]=filter[key];
 
-                filters["page"]=pageStore.page;
-                filters["limit"] =pageStore.limit;
+                filters["page"]=bookPaginationStorage.page;
+                filters["limit"] =bookPaginationStorage.limit;
 
                 const result = await fetchBooks(filters);
 
                 const books=result.book;
                 const numberOfBooks=result.bookNumber;
 
-                pageStore.setMaxPage(Math.ceil(numberOfBooks/pageStore.limit));
+                bookPaginationStorage.setMaxPage(Math.ceil(numberOfBooks/bookPaginationStorage.limit));
 
                 setData(books);
 
@@ -38,7 +37,7 @@ function ProductComponent(displayType) {
         };
 
         fetchData(); // Call the fetch function immediately to load data on page load
-    }, [BookSelectedFilterStore.filter,pageStore.page,pageStore.limit]);
+    }, [bookSelectedFilterStore.filter,bookPaginationStorage.page,bookPaginationStorage.limit]);
 
 
 
@@ -59,4 +58,4 @@ function ProductComponent(displayType) {
     )
 }
 
-export default ProductComponent;
+export default ProductGrid;

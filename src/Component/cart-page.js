@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import CartList from "./order-components/cart-list";
-import CartStorage from "../storage/order-stores/cart-storage";
+import useCartStorage from "../storage/order-stores/cart-storage";
 import {sendOrder} from "../api-calls";
 import {useNavigate} from "react-router-dom";
 import "../Styles/cart-page.css"
-import UserStorage from "../storage/user-stores/user-storage";
+import useUserStorage from "../storage/user-stores/user-storage";
 import EmptyCart from "./order-components/empty-cart";
 
 const CartPage = () => {
     const [order, setOrder] = useState({})
-    const cartStore = CartStorage();
-    const userStore = UserStorage();
+    const cartStore = useCartStorage();
+    const userStore = useUserStorage();
     const navigate = useNavigate();
     useEffect(() => {
         if(order._id)

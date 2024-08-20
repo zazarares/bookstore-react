@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
-import bookSelectedFilterStorage from '../../../storage/book-stores/book-selected-filter-storage';
+import useBookSelectedFilterStorage from '../../../storage/book-stores/book-selected-filter-storage';
 import Form from 'react-bootstrap/Form';
-import BookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
+import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
 const DropDownCheckBox = ({ field, data }) => {
-    const filterStore = bookSelectedFilterStorage();
-    const pageStore=BookPaginationStorage();
+    const bookSelectedFilterStorage = useBookSelectedFilterStorage();
+    const bookPaginationStorage=useBookPaginationStorage();
     const [checkList, setCheckList] = useState([]);
 
     useEffect(()=>{
-        setCheckList(filterStore.getCheckedFields(field))},
-        [filterStore.filterCount])
+        setCheckList(bookSelectedFilterStorage.getCheckedFields(field))},
+        [bookSelectedFilterStorage.filterCount])
 
     const handleCheckBoxChange = (event, item) => {
         let updatedCheckList;
@@ -25,8 +25,8 @@ const DropDownCheckBox = ({ field, data }) => {
             updatedCheckList = checkList.filter(i => i !== item._id);
         }
         setCheckList(updatedCheckList);
-        filterStore.update(field, updatedCheckList);
-        pageStore.setPage(1);
+        bookSelectedFilterStorage.update(field, updatedCheckList);
+        bookPaginationStorage.setPage(1);
     };
 
     return (

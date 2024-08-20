@@ -1,29 +1,29 @@
 import React, {useEffect} from 'react';
 import { DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import bookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
+import useBookSelectedFilterStorage from "../../../storage/book-stores/book-selected-filter-storage";
 import { Slider } from '@mui/material';
-import BookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
+import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
 const SliderFilter = ({ field, min, max }) => {
 
-    const pageStore=BookPaginationStorage();
+    const bookPaginationStorage=useBookPaginationStorage();
 
-    const selectedFilterStore=bookSelectedFilterStorage()
+    const bookSelectedFilterStorage=useBookSelectedFilterStorage()
 
     const [value, setValue] = React.useState([min, max]);
 
     useEffect(() => {
-        setValue([selectedFilterStore.getCheckedFields("min"+field),selectedFilterStore.getCheckedFields("max"+field)]);
-    }, [selectedFilterStore.filter]);
+        setValue([bookSelectedFilterStorage.getCheckedFields("min"+field),bookSelectedFilterStorage.getCheckedFields("max"+field)]);
+    }, [bookSelectedFilterStorage.filter]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     
     const handleChangeCommited = () => {
-        selectedFilterStore.updateRange(field,value[0],value[1]);
-        pageStore.setPage(1);
+        bookSelectedFilterStorage.updateRange(field,value[0],value[1]);
+        bookPaginationStorage.setPage(1);
 
     };
     

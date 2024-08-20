@@ -3,55 +3,59 @@ import {create} from 'zustand';
 const initialFilterState = {
     name: "",
     author: [],
-    minPrice:0,
-    maxPrice:1000,
-    minYear:0,
-    maxYear:3000,
+    minPrice: 0,
+    maxPrice: 1000,
+    minYear: 0,
+    maxYear: 3000,
     genre: [],
     sortBy: "",
     sortOrder: ""
 };
 
-const bookSelectedFilterStorage = create((set) => ({
-    filter: { ...initialFilterState },
+const BookSelectedFilterStorage = create((set) => ({
+    filter: {...initialFilterState},
     filterCount: 0,
     reset: 0,
 
     updateFilterCount: (filter) => {
+        console.log(filter);
         const genreCount = filter.genre.length;
         const authorCount = filter.author.length;
-        return genreCount + authorCount;
+        const priceFiltersOn = filter.minPrice !== 0 || filter.maxPrice !== 1000;
+        const yearFiltersOn = filter.minYear !== 0 || filter.maxYear !== 3000;
+        const nameFilter = filter.name !== "";
+        return genreCount + authorCount + priceFiltersOn + yearFiltersOn + nameFilter;
     },
 
     removeAllFilters: () => set({
-        filter: { ...initialFilterState },
+        filter: {...initialFilterState},
         filterCount: 0,
         reset: 1
     }),
 
-    unSetReset: () => set({ reset: 0 }),
+    unSetReset: () => set({reset: 0}),
 
     update: (field, value) => set((state) => {
-        const newFilter = { ...state.filter, [field]: value };
+        const newFilter = {...state.filter, [field]: value};
         return {
             filter: newFilter,
-            filterCount: bookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+            filterCount: BookSelectedFilterStorage.getState().updateFilterCount(newFilter)
         };
     }),
 
     updateRange: (field, min, max) => set((state) => {
-        const newFilter = { ...state.filter, ['min'+field]: min,['max'+field]: max };
+        const newFilter = {...state.filter, ['min' + field]: min, ['max' + field]: max};
         return {
             filter: newFilter,
-            filterCount: bookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+            filterCount: BookSelectedFilterStorage.getState().updateFilterCount(newFilter)
         };
     }),
 
     getCheckedFields: (field) => {
-        const state = bookSelectedFilterStorage.getState(); // Get the current state
+        const state = BookSelectedFilterStorage.getState(); // Get the current state
         return state.filter[field];
     },
 
 }));
 
-export default bookSelectedFilterStorage;
+export default BookSelectedFilterStorage;

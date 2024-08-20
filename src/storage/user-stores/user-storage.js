@@ -7,9 +7,9 @@ const initialUserState={
     email: "",
     isAdmin: false,
 }
-const userStore = create(
+const UserStore = create(
     persist(
-        (set, get) => ({
+        (set) => ({
             user:initialUserState,
             logged:false,
             setUser: (user) => set(() => ({ user: user, logged: true })),
@@ -23,4 +23,4 @@ const userStore = create(
     )
 );
 
-export default userStore;
+export default UserStore;

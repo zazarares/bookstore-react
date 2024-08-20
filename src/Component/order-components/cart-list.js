@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import ProductItem from '../product-components/product-components/product-item';
-import CartStorage from "../../storage/order-stores/cart-storage";
+import useCartStorage from "../../storage/order-stores/cart-storage";
 
 const CartList = () => {
 
     const [books, setBooks] = useState([]);
     const [quantities, setQuantities] = useState({});
-    const CartStore = CartStorage();
+    const CartStore = useCartStorage();
 
     useEffect(() => {
         setBooks(CartStore.bookList.map((book) => book.book));

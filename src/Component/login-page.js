@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import "../Styles/login.css";
 import {Link, useNavigate} from "react-router-dom";
 import {checkUserCredentials} from "../api-calls";
-import UserStorage from "../storage/user-stores/user-storage";
+import useUserStorage from "../storage/user-stores/user-storage";
 import {loginUser} from "../utils";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate();
-    const userStore = UserStorage();
+    const userStore = useUserStorage();
 
     const checkLogin = (e) => {
 

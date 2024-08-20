@@ -2,9 +2,9 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_API_IP;
 const PORT = process.env.REACT_APP_API_PORT;
-export const fetchFilters = async () => {
+export const fetchFilters = async (filters) => {
     try {
-        const response = await axios.get(`${BASE_URL}:${PORT}/books/filters`)
+        const response = await axios.get(`${BASE_URL}:${PORT}/books/filters`,{params:filters})
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
@@ -17,7 +17,7 @@ export const fetchFilters = async () => {
 
 export const fetchBooks = async (filters) => {
     try {
-        const response = await axios.get(`${BASE_URL}:${PORT}/books/filter?quantity=1-1000`,{params: filters})
+        const response = await axios.get(`${BASE_URL}:${PORT}/books/filter?quantity=1`,{params: filters})
 
         if (response.status!==200) {
             throw new Error('Network response was not ok');
@@ -108,7 +108,7 @@ export const getOrderByID = async(id) =>
 export const checkUserCredentials = async(username, password) =>
 {
     try{
-        const response = await axios.get(`${BASE_URL}:${PORT}/users/login/${username}/${password}`);
+        const response = await axios.post(`${BASE_URL}:${PORT}/users/login/`,{username,password});
 
         if (response.status!==200) {
             throw new Error('Network response was not ok');
