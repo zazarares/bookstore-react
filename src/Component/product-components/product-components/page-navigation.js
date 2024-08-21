@@ -3,7 +3,7 @@ import '../../../Styles/pagination.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
-const PaginationControls = () => {
+const PageNavigationControls = () => {
     const bookPaginationStorage = useBookPaginationStorage();
 
     return (
@@ -27,4 +27,4 @@ const PaginationControls = () => {
     );
 };
 
-export default PaginationControls;
+export default PageNavigationControls;

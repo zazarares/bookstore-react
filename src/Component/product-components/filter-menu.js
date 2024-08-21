@@ -5,7 +5,7 @@ import DropDownCheckbox from "./drop-down-filters/drop-down-checkbox";
 import useBookSelectedFilterStorage from "../../storage/book-stores/book-selected-filter-storage";
 import useBookFilterStorage from "../../storage/book-stores/book-filter-storage";
 import {fetchFilters} from "../../api-calls"
-import Selector from "./drop-down-filters/selector";
+import BooksPerPageSelector from "./drop-down-filters/books-per-page-selector";
 import useBookPaginationStorage from "../../storage/book-stores/book-pagination-storage";
 const FilterMenu = () => {
 
@@ -54,7 +54,7 @@ const FilterMenu = () => {
             <DropDownSliderFilter field={"Price"} min={0} max={100}/>
             <DropDownCheckbox field={"author"} data={authors} />
             <DropDownCheckbox field={"genre"} data={genres} />
-            <Selector></Selector>
+            <BooksPerPageSelector></BooksPerPageSelector>
             <button className={"reset-filter-button"} onClick={resetFilters}>Reset Filters</button>
         </div>
         <div>FilterNumber: {bookSelectedFilterStorage.filterCount}</div>

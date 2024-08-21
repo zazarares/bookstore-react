@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
-const SelectorComponent = () => {
+const BooksPerPageSelector = () => {
     const [selectedOption, setSelectedOption] = useState(6); // Default selected value
     const bookPaginationStore=useBookPaginationStorage();
 
@@ -26,4 +26,4 @@ const SelectorComponent = () => {
     );
 };
 
-export default SelectorComponent;
+export default BooksPerPageSelector;
