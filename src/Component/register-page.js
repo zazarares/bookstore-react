@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../Styles/Register.css';
-import {register} from "../api-calls"
 import useUserStorage from "../storage/user-stores/user-storage";
 import {loginUser, validateEmail} from "../utils";
+import {register} from "../api-calls/user-calls";
 
 function RegisterPage() {
     const [username, setUsername] = useState()
@@ -12,7 +12,7 @@ function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState()
     const [fullName, setFullName] = useState()
     const navigate = useNavigate();
-    const userStore=useUserStorage();
+    const userStore = useUserStorage();
 
     const Register = async (e) => {
 
@@ -28,7 +28,7 @@ function RegisterPage() {
                     name: fullName
                 })
 
-                loginUser(response,userStore);
+                loginUser(response, userStore);
                 navigate("/");
             } else {
                 alert("Email is not valid")

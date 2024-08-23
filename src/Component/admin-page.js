@@ -5,19 +5,22 @@ import "../Styles/user.css"
 import {Link, useNavigate} from "react-router-dom";
 import completedOrderStorage from "../storage/order-stores/completed-order-storage";
 
-const UserPage = () => {
+const AdminPage = () => {
 
     const userStore = UserStorage();
     const orderStore = completedOrderStorage()
     const navigate = useNavigate();
 
     useEffect(() => {
-        orderStore.cacheOrders(userStore.user._id)
+        orderStore.cacheOrders(userStore.user._id, true)
     }, [])
 
     const handleLogout = () => {
         userStore.logOut();
         navigate("/")
+    }
+    const handleAddBook = () => {
+
     }
 
 
@@ -32,9 +35,7 @@ const UserPage = () => {
                         <p className="card-text">UserID: {userStore.user._id}</p>
                     </div>
                 </div>
-            </div>
-            <div className="justify-content-center w-25">
-                <Link className="btn mb-3" to={`/edit-user/${userStore.user._id}`}>Edit</Link>
+                <Link className="btn btn-primary col-2" to="/add-book">Add Book</Link>
             </div>
             <div className="row">
                 {orderStore.detailedOrderList.map((order, index) => (
@@ -50,4 +51,4 @@ const UserPage = () => {
         </div>
     )
 }
-export default UserPage;
+export default AdminPage;

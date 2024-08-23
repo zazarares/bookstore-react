@@ -1,30 +1,25 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import "../Styles/navbar.css";
 import useUserStorage from "../storage/user-stores/user-storage";
 
 const Navbar = () => {
     const userStore = useUserStorage();
-    const navigate = useNavigate();
-
-    const handleCartClick = () => {
-        navigate("/cart");
-    }
-    const goToLogin = () => {
-        navigate("/login")
-    }
-    const goToUserPage = () => {
-        navigate("/user")
-    }
     const checkLogin = () => {
-        if (userStore.logged)
-            return (<button className="right-button" onClick={goToUserPage}>
-                {userStore.user.name}
-            </button>)
+        if (userStore.isLoggedIn)
+            if (userStore.user.isAdmin) {
+                return (<Link className="right-button" to={"/admin"}>
+                    {userStore.user.name}
+                </Link>)
+            } else {
+                return (<Link className="right-button" to={"/user"}>
+                    {userStore.user.name}
+                </Link>)
+            }
         else
-            return (<button className="right-button" onClick={goToLogin}>
+            return (<Link className="right-button" to={"/login"}>
                 Login
-            </button>)
+            </Link>)
 
     }
 
@@ -41,9 +36,9 @@ const Navbar = () => {
                 <div>
                     {checkLogin()}
                 </div>
-                <button className="right-button" onClick={handleCartClick}>
+                <Link className="right-button" to={"/cart"}>
                     Cart
-                </button>
+                </Link>
             </div>
         </div>
     );

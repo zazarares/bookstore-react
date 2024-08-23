@@ -2,17 +2,17 @@ import React, {useEffect, useState} from 'react';
 import '../../../Styles/product-details.css'
 import useCartStorage from "../../../storage/order-stores/cart-storage";
 import useBookStorage from "../../../storage/book-stores/book-storage";
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 const ProductDetails = () => {
     const [book, setBook] = useState({});
     const cartStore = useCartStorage();
     const bookStore = useBookStorage();
-    const { productId } = useParams();
+    const {productId} = useParams();
 
     useEffect(() => {
         setBook(bookStore.getBook(productId));
-    }, [bookStore, productId])
+    }, [bookStore.bookList, productId])
 
     const handleBack = () => {
         window.history.back();

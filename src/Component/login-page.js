@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import "../Styles/login.css";
 import {Link, useNavigate} from "react-router-dom";
-import {checkUserCredentials} from "../api-calls";
 import useUserStorage from "../storage/user-stores/user-storage";
 import {loginUser} from "../utils";
+import {login} from "../api-calls/user-calls";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("")
@@ -15,9 +15,9 @@ const LoginPage = () => {
 
         e.preventDefault()
 
-        const response = checkUserCredentials(username, password)
+        const response = login(username, password)
 
-        loginUser(response,userStore);
+        loginUser(response, userStore);
 
         navigate("/");
     }

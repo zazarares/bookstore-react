@@ -1,6 +1,8 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware'
-const initialUserState={
+import {create} from 'zustand';
+import {createJSONStorage, persist} from 'zustand/middleware'
+import CompletedOrderStorage from "../order-stores/completed-order-storage";
+
+const initialUserState = {
     _id: "",
     username: "",
     name: "",
@@ -10,11 +12,14 @@ const initialUserState={
 const UserStore = create(
     persist(
         (set) => ({
-            user:initialUserState,
-            logged:false,
-            setUser: (user) => set(() => ({ user: user, logged: true })),
+            user: initialUserState,
+            isLoggedIn: false,
+            setUser: (user) => set(() => ({user: user, isLoggedIn: true})),
 
-            logOut: () => set(() => ({user:initialUserState,logged:false})),
+            logOut: () => {
+                set(() => ({user: initialUserState, isLoggedIn: false}))
+                CompletedOrderStorage.getState().clear();
+            },
         }),
         {
             name: 'user-storage',

@@ -1,12 +1,13 @@
 import {create} from 'zustand';
+import {capitalizeFirstLetter} from "../../utils";
 
 const initialFilterState = {
     name: "",
     author: [],
     minPrice: 0,
-    maxPrice: 1000,
+    maxPrice: 100,
     minYear: 0,
-    maxYear: 3000,
+    maxYear: 2024,
     genre: [],
     sortBy: "",
     sortOrder: ""
@@ -44,7 +45,11 @@ const BookSelectedFilterStorage = create((set) => ({
     }),
 
     updateRange: (field, min, max) => set((state) => {
-        const newFilter = {...state.filter, ['min' + field]: min, ['max' + field]: max};
+        const newFilter = {
+            ...state.filter,
+            ['min' + capitalizeFirstLetter(field)]: min,
+            ['max' + capitalizeFirstLetter(field)]: max
+        };
         return {
             filter: newFilter,
             filterCount: BookSelectedFilterStorage.getState().updateFilterCount(newFilter)

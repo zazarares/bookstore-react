@@ -4,16 +4,18 @@ import {Link, useParams} from "react-router-dom";
 import "../../Styles/order-details.css"
 
 const OrderDetails = () => {
-    const [books, setBooks] = useState([])
+    const [orderContent, setOrderContent] = useState([])
     const [order, setOrder] = useState({});
     const orderStore = useCompletedOrderStorage();
     const {orderID} = useParams();
 
     useEffect(() => {
         const currOrder = orderStore.getOrder(orderID);
-        setOrder(currOrder)
-        setBooks(currOrder.books)
-    }, [orderStore, orderID]);
+        if (currOrder) {
+            setOrder(currOrder)
+            setOrderContent(currOrder.books)
+        }
+    }, [orderStore.detailedOrderList]);
 
     return (
         <div className="order-display">
@@ -26,23 +28,29 @@ const OrderDetails = () => {
             </div>
             <h3>Books in the Order</h3>
             <div className="books-list">
-                {books ? (
-                    books.map((book) => (
-                        <div key={book.book} className="book-item">
-                            <Link to={`/product/${book.book}`} className="text-decoration-none">
-                                <p><strong>Name:</strong> {book.name}</p>
-                                <p><strong>Price:</strong> {book.price} RON</p>
-                                <p><strong>Quantity:</strong> {book.quantity}</p>
-                            </Link>
-                        </div>
+                {orderContent ? (
+                    orderContent.map((data) => (
+                        data.book ? (
+                            <div key={data.book} className="book-item">
+                                <Link to={`/product/${data.book_id}`} className="text-decoration-none">
+                                    <div className="d-flex justify-content-center mb-1">
+                                        <img src={data.book.url} alt="order" className="mb-1 small-image"/>
+                                    </div>
+                                    <p><strong>Name:</strong> {data.book.name}</p>
+                                    <p><strong>Price:</strong> {data.book.price} RON</p>
+                                    <p><strong>Quantity:</strong> {data.book.quantity}</p>
+
+
+                                </Link>
+                            </div>) : (<div>Book was removed from the database!</div>)
                     ))
                 ) : (
                     <p>No books available.</p>
                 )}
+            </div>
         </div>
-</div>
-)
-    ;
+    )
+        ;
 };
 
 export default OrderDetails;
