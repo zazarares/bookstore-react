@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import OrderItem from "./order-components/order-item";
 import UserStorage from "../storage/user-stores/user-storage";
 import "../Styles/user.css"
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import completedOrderStorage from "../storage/order-stores/completed-order-storage";
 
 const AdminPage = () => {
@@ -19,9 +19,6 @@ const AdminPage = () => {
         userStore.logOut();
         navigate("/")
     }
-    const handleAddBook = () => {
-
-    }
 
 
     return (
@@ -35,7 +32,6 @@ const AdminPage = () => {
                         <p className="card-text">UserID: {userStore.user._id}</p>
                     </div>
                 </div>
-                <Link className="btn btn-primary col-2" to="/add-book">Add Book</Link>
             </div>
             <div className="row">
                 {orderStore.detailedOrderList.map((order, index) => (

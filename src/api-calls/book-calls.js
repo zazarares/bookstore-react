@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getUserDetailsFromToken, reloadCache} from "../utils";
+import {getUserDetailsFromToken, reloadBookCache, reloadCache} from "../utils";
 
 export const BASE_URL = process.env.REACT_APP_API_IP;
 export const PORT = process.env.REACT_APP_API_PORT;
@@ -26,7 +26,7 @@ export const createBook = async (book) => {
         }
         return response.data;
     } catch (error) {
-        alert("Order could not be created")
+        alert("Book could not be created")
         throw error;
     }
 }
@@ -40,7 +40,7 @@ export const updateBook = async (id, book) => {
         }
         return response.data;
     } catch (error) {
-        alert("Order could not be updated")
+        alert("Book could not be updated")
         throw error;
     }
 }
@@ -49,18 +49,19 @@ export const deleteBook = async (id) => {
     try {
         const response = await axios.delete(`${BASE_URL}:${PORT}${ENDPOINT}/${id}`, {headers: {Authorization: "Bearer " + token}});
         reloadCache(getUserDetailsFromToken(token))
+        reloadBookCache();
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
         return response.data;
     } catch (error) {
-        alert("Order could not be updated")
+        alert("Could not delete book")
         throw error;
     }
 }
 export const fetchBooks = async (filters) => {
     try {
-        const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/filter?quantity=1`, {params: filters})
+        const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/filter`, {params: filters})
 
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
@@ -98,7 +99,7 @@ export const getMultipleBooksFromList = async (bookList) => {
         return response.data;
     } catch (error) {
         //clearUserStore();
-        alert("Orders could not be fetched!")
+        alert("Books could not be fetched from the set!")
         throw error;
     }
 }

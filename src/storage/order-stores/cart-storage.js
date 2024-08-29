@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 
 const CartStorage = create(
@@ -18,18 +18,19 @@ const CartStorage = create(
                         set(() => ({
                             bookList: state.bookList.map((bookItem) =>
                                 bookItem.book._id === item.book._id
-                                    ? { ...bookItem, quantity: bookItem.quantity + 1 }
+                                    ? {...bookItem, quantity: Math.min(bookItem.book.quantity, bookItem.quantity + 1)}
                                     : bookItem
                             ),
                         }));
+
                     } else {
                         // The book doesn't exist and is added
-                        set(() => ({ bookList: [...state.bookList, { book: item.book, quantity: item.quantity }] }));
+                        set(() => ({bookList: [...state.bookList, {book: item.book, quantity: item.quantity}]}));
                     }
                 } else {
-                    set(() => ({ bookList: [...state.bookList, { book: item.book, quantity: item.quantity }] }));
+                    set(() => ({bookList: [...state.bookList, {book: item.book, quantity: item.quantity}]}));
                 }
-                state.setPrice(state.price + item.book.price);
+                state.calculatePrice();
             },
 
             removeBook: (id) => {
@@ -48,19 +49,26 @@ const CartStorage = create(
                 const state = get();
                 set(() => ({
                     bookList: state.bookList.map((item) => {
-                            return item.book._id === id ? { ...item, quantity: quantity } : item
+                            return item.book._id === id ? {...item, quantity: quantity} : item
                         }
                     )
                 }));
             },
 
-            clear: () => set(() => ({ bookList: [], price: 0 })),
+            clear: () => set(() => ({bookList: [], price: 0})),
 
-            setPrice: (price) => set(() => ({ price: price })),
-
-            empty: () => {
+            isEmpty: () => {
                 const state = get();
                 return state.bookList.length === 0;
+            },
+
+            calculatePrice: () => {
+                const state = get();
+                let price = 0;
+                for (let i = 0; i < state.bookList.length; i++) {
+                    price += state.bookList[i].book.price * state.bookList[i].quantity;
+                }
+                set(() => ({price: price}));
             }
         }),
         {

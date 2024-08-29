@@ -6,7 +6,7 @@ import "../Styles/product-grid.css"
 
 const ProductsPage = () => {
 
-    const [displayType, setDisplayType] = useState(false);
+    const [displayType, setDisplayType] = useState(true);
 
     const changeDisplayType = () => {
         setDisplayType(prevDisplayType => !prevDisplayType);
@@ -15,6 +15,7 @@ const ProductsPage = () => {
     return (
         <div className="grid">
             <FilterMenu/>
+            <button onClick={changeDisplayType}> VIEW</button>
             <ProductGrid displayType={displayType}/>
             <PageNavigationControls/>
 

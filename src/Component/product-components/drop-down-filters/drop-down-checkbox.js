@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import { DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
+import {ButtonGroup, Dropdown, DropdownButton} from 'react-bootstrap';
 import useBookSelectedFilterStorage from '../../../storage/book-stores/book-selected-filter-storage';
 import Form from 'react-bootstrap/Form';
 import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
 
-const DropDownCheckBox = ({ field, data }) => {
+const DropDownCheckBox = ({field, data}) => {
     const bookSelectedFilterStorage = useBookSelectedFilterStorage();
-    const bookPaginationStorage=useBookPaginationStorage();
+    const bookPaginationStorage = useBookPaginationStorage();
     const [checkList, setCheckList] = useState([]);
 
-    useEffect(()=>{
-        setCheckList(bookSelectedFilterStorage.getCheckedFields(field))},
-        [bookSelectedFilterStorage.filterCount])
+    useEffect(() => {
+        setCheckList(bookSelectedFilterStorage.getCheckedFields(field))
+    }, []);
 
     const handleCheckBoxChange = (event, item) => {
         let updatedCheckList;
 
         if (event.target.checked) {
-            if(checkList===[])
+            if (checkList === [])
                 setCheckList(item)
             else
                 updatedCheckList = [...checkList, item._id];
@@ -39,14 +39,14 @@ const DropDownCheckBox = ({ field, data }) => {
         >
             <Dropdown.Item as="div">
                 <Form>
-                    {data.map((item,index) => (
+                    {data.map((item, index) => (
                         <div key={index} className="mb-3">
                             <Form.Check // prettier-ignore
                                 type={"checkbox"}
                                 id={`default-checkbox`}
                                 label={item._id + ` (${item.count}) `}
                                 checked={checkList.includes(item._id)}
-                                onChange={(e)=>handleCheckBoxChange(e,item)}
+                                onChange={(e) => handleCheckBoxChange(e, item)}
                             />
                         </div>
                     ))}

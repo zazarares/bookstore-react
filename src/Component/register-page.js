@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../Styles/Register.css';
 import useUserStorage from "../storage/user-stores/user-storage";
-import {loginUser, validateEmail} from "../utils";
+import {saveUserToStore, validateEmail} from "../utils";
 import {register} from "../api-calls/user-calls";
 
 function RegisterPage() {
@@ -17,25 +17,30 @@ function RegisterPage() {
     const Register = async (e) => {
 
         e.preventDefault()
+        try {
+            if (password === confirmPassword) {
+                if (validateEmail(email)) {
+                    const response = register({
+                        isAdmin: false,
+                        username: username,
+                        email: email,
+                        password: password,
+                        name: fullName
+                    })
 
-        if (password === confirmPassword) {
-            if (validateEmail(email)) {
-                const response = register({
-                    isAdmin: false,
-                    username: username,
-                    email: email,
-                    password: password,
-                    name: fullName
-                })
+                    saveUserToStore(response, userStore).then(() => {
+                        navigate("/");
+                    });
 
-                loginUser(response, userStore);
-                navigate("/");
+                } else {
+                    alert("Email is not valid")
+                }
+
             } else {
-                alert("Email is not valid")
+                alert("Passwords do not match")
             }
-
-        } else {
-            alert("Passwords do not match")
+        } catch (error) {
+            throw error;
         }
     }
 

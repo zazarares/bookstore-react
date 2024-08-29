@@ -2,60 +2,67 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {getUser, updateUser} from "../api-calls/user-calls";
 import userStorage from "../storage/user-stores/user-storage";
+import {Store} from "react-notifications-component";
+import "../Styles/update-user.css"
 
 function UpdateUserForm() {
     const {userId} = useParams(); // Get the user ID from the URL
     const userStore = userStorage();
     const [user, setUser] = useState({
-        _id: '',
-        name: '',
-        username: '',
-        email: '',
-        password: '',
+        _id: '', name: '', username: '', email: '', password: '',
     });
 
-    // Fetch the user details when the component mounts
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const fetchedUser = await getUser(userId);
+                const fetchedUser = await getUser();
                 setUser(fetchedUser);
-                console.log(fetchedUser);
             } catch (error) {
                 console.error('Error fetching user:', error);
             }
         };
-
-        fetchUser();
-    }, [userId]);
+        try {
+            fetchUser();
+        } catch (error) {
+            throw error;
+        }
+    }, []);
 
     const handleChange = (e) => {
-        const {name, value, type, checked} = e.target;
+        const {name, value} = e.target;
         setUser({
-            ...user,
-            [name]: type === 'checkbox' ? checked : value
+            ...user, [name]: value
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('User updated:', user);
         try {
-            await updateUser(userId, user).then(() => {
+            updateUser(userId, user).then(() => {
                 userStore.setUser(user)
+                Store.addNotification({
+                    title: "Details Updated",
+                    message: "Your details have been updated successfully",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000, onScreen: true
+                    }
+                });
             });
-            // Redirect or show a success message
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
 
-    return (
-        <div>
-            <h1>Update User</h1>
+    return (<div className="update-user-container">
+            <h1 className="update-user-title">Update User</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name:</label><br/>
+                <div className="update-user-form-group">
+                    <label htmlFor="name" className="update-user-label">Name:</label>
                     <input
                         type="text"
                         id="name"
@@ -63,11 +70,12 @@ function UpdateUserForm() {
                         value={user.name}
                         onChange={handleChange}
                         required
+                        className="update-user-input"
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="username">Username:</label><br/>
+                <div className="update-user-form-group">
+                    <label htmlFor="username" className="update-user-label">Username:</label>
                     <input
                         type="text"
                         id="username"
@@ -75,11 +83,12 @@ function UpdateUserForm() {
                         value={user.username}
                         onChange={handleChange}
                         required
+                        className="update-user-input"
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="email">Email:</label><br/>
+                <div className="update-user-form-group">
+                    <label htmlFor="email" className="update-user-label">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -87,27 +96,26 @@ function UpdateUserForm() {
                         value={user.email}
                         onChange={handleChange}
                         required
+                        className="update-user-input"
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="password">Password:</label><br/>
+                <div className="update-user-form-group">
+                    <label htmlFor="password" className="update-user-label">Password:</label>
                     <input
-                        className="mb-4"
                         type="password"
                         id="password"
                         name="password"
                         value={user.password}
                         onChange={handleChange}
                         required
+                        className="update-user-input"
                     />
                 </div>
 
-
-                <button type="submit">Update User</button>
+                <button type="submit" className="update-user-submit">Update User</button>
             </form>
-        </div>
-    );
+        </div>);
 }
 
 export default UpdateUserForm;

@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import { DropdownButton, Dropdown, ButtonGroup, FormControl } from 'react-bootstrap';
+import {ButtonGroup, Dropdown, DropdownButton, FormControl} from 'react-bootstrap';
 import useBookSelectedFilterStorage from '../../../storage/book-stores/book-selected-filter-storage';
 import useBookPaginationStorage from "../../../storage/book-stores/book-pagination-storage";
-const DropDownFilterText = ({ field }) => {
-    const { update } = useBookSelectedFilterStorage(state => ({
+
+const DropDownFilterText = ({field}) => {
+    const {update} = useBookSelectedFilterStorage(state => ({
         update: state.update
     }));
+
     const bookSelectedFilterStorage = useBookSelectedFilterStorage();
-    const bookPaginationStorage=useBookPaginationStorage();
+    const bookPaginationStorage = useBookPaginationStorage();
+
     const [textValue, setTextValue] = useState("");
 
     useEffect(() => {
-        setTextValue(bookSelectedFilterStorage.filter.name);
-    }, [bookSelectedFilterStorage]);
+        setTextValue(bookSelectedFilterStorage.filter[field]);
+    }, []);
 
     const handleTextChange = (event) => {
         const textValue = event.target.value;

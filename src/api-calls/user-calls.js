@@ -1,4 +1,5 @@
 import axios from "axios";
+import UserStorage from "../storage/user-stores/user-storage";
 
 export const BASE_URL = process.env.REACT_APP_API_IP;
 export const PORT = process.env.REACT_APP_API_PORT;
@@ -37,6 +38,9 @@ export const updateUser = async (id, user) => {
 
         const response = await axios.put(`${BASE_URL}:${PORT}${ENDPOINT}/`, user, {headers: {Authorization: "Bearer " + token}});
 
+        if (response.status === 403)
+            UserStorage.getState().logOut();
+
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
@@ -51,6 +55,27 @@ export const getUser = async () => {
         const token = localStorage.getItem('token')
 
         const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/id`, {headers: {Authorization: "Bearer " + token}});
+
+        if (response.status === 403)
+            UserStorage.getState().logOut();
+
+        if (response.status !== 200) {
+            throw new Error('Network response was not ok');
+        }
+        return response.data;
+    } catch (error) {
+        alert("Could not get user!")
+        throw error;
+    }
+}
+export const getAllUsers = async () => {
+    try {
+        const token = localStorage.getItem('token')
+
+        const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}`, {headers: {Authorization: "Bearer " + token}});
+
+        if (response.status === 403)
+            UserStorage.getState().logOut();
 
         if (response.status !== 200) {
             throw new Error('Network response was not ok');

@@ -5,20 +5,20 @@ import useUserStorage from "../storage/user-stores/user-storage";
 const PrivateRoute = ({children, type}) => {
     const userStore = useUserStorage();
     const location = useLocation();
-    const getAuthType = (type) => {
+    const checkAuth = (type) => {
         switch (type) {
             case "logged-in":
-                return !userStore.isLoggedIn;
+                return userStore.isLoggedIn;
             case "admin":
-                return !userStore.user.isAdmin;
+                return userStore.user.isAdmin;
             default:
                 return false;
         }
     }
-    if (getAuthType(type))
-        return <Navigate to="/forbidden" state={{from: location}}/>;
+    if (checkAuth(type))
+        return children
     else
-        return children;
+        return <Navigate to="/forbidden" state={{from: location}}/>;
 
 };
 

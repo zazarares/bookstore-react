@@ -16,7 +16,7 @@ const SliderFilter = ({field, min, max}) => {
 
     useEffect(() => {
         setValue([bookSelectedFilterStorage.getCheckedFields("min" + capitalizeFirstLetter(field)), bookSelectedFilterStorage.getCheckedFields("max" + capitalizeFirstLetter(field))]);
-    }, [bookSelectedFilterStorage.filter]);
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

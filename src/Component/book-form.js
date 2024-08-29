@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {fetchBookById, updateBook} from "../api-calls/book-calls";
-import {Store} from "react-notifications-component";
 import "../Styles/update-book.css"
 
-function UpdateBookForm() {
+import {createBook, fetchBookById, updateBook} from "../api-calls/book-calls";
+import {Store} from "react-notifications-component";
+import {useParams} from "react-router-dom";
+
+function BookForm({type}) {
     const {productId} = useParams();
     const [book, setBook] = useState({
-        _id: '',
         name: '',
         author: '',
         year: '',
@@ -26,7 +26,9 @@ function UpdateBookForm() {
                 console.error('Error fetching book:', error);
             }
         };
-        fetchBook();
+        if (type === "update") {
+            fetchBook();
+        }
     }, [productId]);
 
     const handleChange = (e) => {
@@ -37,31 +39,49 @@ function UpdateBookForm() {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         try {
-            await updateBook(productId, book);
-            Store.addNotification({
-                title: "Book Updated",
-                message: book.name + " was updated successfully!",
-                type: "success",
-                insert: "top",
-                container: "top-left",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 2000, onScreen: true
-                }
-            });
+            if (type === "add") {
+                createBook(book).then(() => {
+                    Store.addNotification({
+                        title: "Book Created",
+                        message: book.name + " was created successfully!",
+                        type: "success",
+                        insert: "top",
+                        container: "top-left",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                            duration: 2000, onScreen: true
+                        }
+                    })
+                })
+            } else if (type === "update") {
+                updateBook(productId, book).then(() => {
+                    Store.addNotification({
+                        title: "Book Updated",
+                        message: book.name + " was updated successfully!",
+                        type: "success",
+                        insert: "top",
+                        container: "top-left",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                            duration: 2000, onScreen: true
+                        }
+                    })
+                });
+
+            }
         } catch (error) {
-            console.error('Error updating book:', error);
             throw error;
         }
     };
 
     return (
         <div className="update-book-form-container">
-            <h1>Update Book Entry</h1>
+            <h1>{type === "add" ? "Create Book" : (type === "update" ? "Update Book" : undefined)}</h1>
             <form onSubmit={handleSubmit} className="update-book-form">
                 <div className="form-group">
                     <label htmlFor="name">Book Name:</label><br/>
@@ -139,6 +159,7 @@ function UpdateBookForm() {
                         name="quantity"
                         value={book.quantity}
                         onChange={handleChange}
+                        min="1"
                         required
                         className="form-input"
                     />
@@ -156,10 +177,11 @@ function UpdateBookForm() {
                     />
                 </div>
 
-                <button type="submit" className="form-button">Update Book</button>
+                <button
+                    type="submit">{type === "add" ? "Create Book" : (type === "update" ? "Update Book" : undefined)}</button>
             </form>
         </div>
     );
 }
 
-export default UpdateBookForm;
+export default BookForm;

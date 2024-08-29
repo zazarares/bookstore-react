@@ -7,7 +7,7 @@ import useBookFilterStorage from "../../storage/book-stores/book-filter-storage"
 import BooksPerPageSelector from "./drop-down-filters/books-per-page-selector";
 import useBookPaginationStorage from "../../storage/book-stores/book-pagination-storage";
 
-import {fetchFilters} from "../../api-calls/filter-calls";
+import {fetchFilters} from "../../api-calls/book-calls";
 
 const FilterMenu = () => {
 
@@ -33,15 +33,13 @@ const FilterMenu = () => {
 
         } catch (error) {
             console.error('Error fetching data:', error);
+            throw error;
         }
     }
 
     useEffect(() => {
         getFilterData()
-    }, [bookSelectedFilterStorage]);
-    useEffect(() => {
-        bookPaginationStore.setPage(Math.min(bookPaginationStore.page, bookPaginationStore.pageMax));
-    }, [bookPaginationStore.pageMax]);
+    }, [bookSelectedFilterStorage.filter]);
 
     const resetFilters = () => {
         bookSelectedFilterStorage.removeAllFilters();
@@ -49,7 +47,7 @@ const FilterMenu = () => {
     }
 
     return (
-        <div className="filter-menu">
+        <div className="filter-menu mt-2">
             <div className="filter-menu-sidebar">
                 <DropDownFilterText field={"name"}/>
                 <DropDownSliderFilter field={"year"} min={1900} max={2024}/>

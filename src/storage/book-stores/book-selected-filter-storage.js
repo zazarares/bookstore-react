@@ -6,7 +6,7 @@ const initialFilterState = {
     author: [],
     minPrice: 0,
     maxPrice: 100,
-    minYear: 0,
+    minYear: 1900,
     maxYear: 2024,
     genre: [],
     sortBy: "",
@@ -16,14 +16,12 @@ const initialFilterState = {
 const BookSelectedFilterStorage = create((set) => ({
     filter: {...initialFilterState},
     filterCount: 0,
-    reset: 0,
 
     updateFilterCount: (filter) => {
-        console.log(filter);
         const genreCount = filter.genre.length;
         const authorCount = filter.author.length;
-        const priceFiltersOn = filter.minPrice !== 0 || filter.maxPrice !== 1000;
-        const yearFiltersOn = filter.minYear !== 0 || filter.maxYear !== 3000;
+        const priceFiltersOn = filter.minPrice !== initialFilterState.minPrice || filter.maxPrice !== initialFilterState.maxPrice;
+        const yearFiltersOn = filter.minYear !== initialFilterState.minYear || filter.maxYear !== initialFilterState.maxYear;
         const nameFilter = filter.name !== "";
         return genreCount + authorCount + priceFiltersOn + yearFiltersOn + nameFilter;
     },
@@ -31,16 +29,13 @@ const BookSelectedFilterStorage = create((set) => ({
     removeAllFilters: () => set({
         filter: {...initialFilterState},
         filterCount: 0,
-        reset: 1
     }),
-
-    unSetReset: () => set({reset: 0}),
 
     update: (field, value) => set((state) => {
         const newFilter = {...state.filter, [field]: value};
         return {
             filter: newFilter,
-            filterCount: BookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+            filterCount: state.updateFilterCount(newFilter)
         };
     }),
 
@@ -52,13 +47,12 @@ const BookSelectedFilterStorage = create((set) => ({
         };
         return {
             filter: newFilter,
-            filterCount: BookSelectedFilterStorage.getState().updateFilterCount(newFilter)
+            filterCount: state.updateFilterCount(newFilter)
         };
     }),
 
     getCheckedFields: (field) => {
-        const state = BookSelectedFilterStorage.getState(); // Get the current state
-        return state.filter[field];
+        return BookSelectedFilterStorage.getState().filter[field];
     },
 
 }));

@@ -1,9 +1,12 @@
 import axios from "axios";
+import completedOrderStorage from "../storage/order-stores/completed-order-storage";
+import UserStorage from "../storage/user-stores/user-storage";
+import BookStorage from "../storage/book-stores/book-storage";
 
 export const BASE_URL = process.env.REACT_APP_API_IP;
 export const PORT = process.env.REACT_APP_API_PORT;
 export const ENDPOINT = "/orders";
-export const sendOrder = async (userID, bookList, logOutUser) => {
+export const sendOrder = async (userID, bookList) => {
     const token = localStorage.getItem('token')
     try {
         let books = [];
@@ -12,64 +15,35 @@ export const sendOrder = async (userID, bookList, logOutUser) => {
             userId: userID,
             books: books
         }, {headers: {Authorization: "Bearer " + token}});
-
         if (response.status === 403)
-            logOutUser();
+            UserStorage.getState().logOut();
 
         if (response.status !== 201) {
             throw new Error('Network response was not ok');
         }
-        return response.data;
+        completedOrderStorage.getState().clear();
+        for (let i = 0; i < response.data.order.books.length; i++) {
+            BookStorage.getState().updateQuantities(response.data.order.books[i].book_id, response.data.order.books[i].quantity);
+        }
+        return response;
     } catch (error) {
-        logOutUser();
         alert("Order could not be created")
         throw error;
     }
 }
-export const getOrdersByUserID = async (userID, logOutUser) => {
+export const getOrdersByUserID = async () => {
     const token = localStorage.getItem('token')
 
     try {
         const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/user`, {headers: {Authorization: "Bearer " + token}});
+
         if (response.status === 403)
-            logOutUser();
+            UserStorage.getState().logOut();
 
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
 
-        return response.data;
-    } catch (error) {
-        logOutUser();
-        alert("Orders could not be fetched!")
-        throw error;
-    }
-}
-export const getOrders = async () => {
-    const token = localStorage.getItem('token')
-
-    try {
-        const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/`, {headers: {Authorization: "Bearer " + token}});
-
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok');
-        }
-
-        return response.data;
-    } catch (error) {
-        alert("Orders could not be fetched!")
-        throw error;
-    }
-}
-export const getOrderByID = async (id) => {
-
-    try {
-        const response = await axios.get(`${BASE_URL}:${PORT}${ENDPOINT}/${id}`);
-
-
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok');
-        }
 
         return response.data;
     } catch (error) {

@@ -1,6 +1,7 @@
 
-.filter-menu{
+.filter-menu {
 }
+
 .reset-filter-button {
     background-color: #e6ccb2; /* Dark gray background */
     color: #000000; /* White text color */
@@ -10,15 +11,17 @@
     cursor: pointer; /* Cursor changes to pointer on hover */
     font-size: 16px; /* Font size */
     transition: background-color 0.3s ease; /* Smooth background color transition */
+    width: 26%
 }
 
 /* Hover state */
 .reset-filter-button:hover {
     background-color: #f6bd60; /* Slightly lighter gray on hover */
 }
-.light-card{
+
+.light-card {
     background-color: #fefae0;
-    border:black;
+    border: black;
 }
 
 /* Active state */
@@ -30,4 +33,19 @@
 .reset-filter-button:focus {
     outline: none; /* Remove default outline */
     box-shadow: 0 0 0 3px rgba(68, 68, 68, 0.5); /* Add a subtle focus ring */
+}
+
+.list-view {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-view .col-12 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.list-view .col-12 .product-item {
+    margin-left: 15px;
 }

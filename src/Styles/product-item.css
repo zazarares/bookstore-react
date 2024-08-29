@@ -1,7 +1,7 @@
 /* ProductItem.css */
 
 .product-card {
-    width: 38rem;  /* Set card width */
+    width: 38rem; /* Set card width */
     height: 25rem; /* Set card height */
     display: flex;
     flex-direction: column;
@@ -10,7 +10,8 @@
 }
 
 .product-card img {
-    height: 100%;
+    width: 40rem; /* Set card width */
+    height: 20rem; /* Set card height */
     object-fit: cover; /* Ensures the image covers the entire area */
     border-radius: 5px 0 0 5px; /* Optional: If you want rounded corners */
 }
